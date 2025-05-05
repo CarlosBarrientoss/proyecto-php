@@ -1,5 +1,7 @@
 <?php
+
 require_once "./modelos/registro.modelo.php";
+
 class ControladorRegistro{
 
     static public function ctrRegistro(){
