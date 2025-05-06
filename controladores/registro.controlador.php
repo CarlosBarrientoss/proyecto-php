@@ -4,6 +4,10 @@ require_once "./modelos/registro.modelo.php";
 
 class ControladorRegistro{
 
+    /*=============================================
+    Registrar Usuario
+    =============================================*/
+
     static public function ctrRegistro(){
 
         if(isset($_POST["registroNombre"])){
@@ -25,5 +29,69 @@ class ControladorRegistro{
         }
 
     }
+
+    /*=============================================
+    Seleccionar Registros
+    =============================================*/
+
+    static public function ctrSeleccionarRegistro(){
+
+        $tabla = "personas";
+
+        $respuesta = ModeloRegistro::mdlSeleccionarRegistro($tabla, null,null);
+
+        return $respuesta;
+    }
+
+    /*=============================================
+    Ingresar Usuario
+    =============================================*/
+
+    public function ctrIngreso(){
+
+        if(isset($_POST["ingresoCorreo"])){
+
+           
+
+            $tabla = "personas";
+            $item = "pers_correo";
+            $valor = $_POST["ingresoCorreo"];
+
+            $respuesta = ModeloRegistro::mdlSeleccionarRegistro($tabla, $item, $valor);
+
+            if($respuesta["pers_correo"] == $_POST["ingresoCorreo"] && $respuesta["pers_clave"] == $_POST["ingresoClave"]){ 
+                
+                session_start();
+                  
+                $_SESSION["validarIngreso"] = "ok";
+
+                echo '<script>
+
+                if ( window.history.replaceState ) {
+                    window.history.replaceState( null, null, window.location.href );
+                }
+
+                    window.location = "index.php?modulo=contenido";
+
+                </script>';
+
+            } else {
+
+                echo '<script>
+
+                if ( window.history.replaceState ) {
+                    window.history.replaceState( null, null, window.location.href );
+                }
+
+                </script>';
+
+                echo '<div class="alert alert-success">la contraseña no es valida</div>';
+            }
+
+
+        }
+
+    }
+
         
 }
